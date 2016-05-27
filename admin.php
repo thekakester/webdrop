@@ -56,7 +56,7 @@
 	//Listing all current links
 	$result = $conn->query("SELECT token,path,password,id FROM files");
 	while ($row = $result->fetch_assoc()) {
-		$link = "webdrop.php?token=$row[token]";
+		$link = "http://168.192.1.198/webdrop/webdrop.php?token=$row[token]";
 		echo "<tr><td>$row[path]</td><td><a href='$link'>$link</a></td><td>$row[password]</td><td><a href='?delete=$row[id]'>X</a></td></tr>";
 	}
 	echo "</table>";
