@@ -31,12 +31,34 @@
 		echo "Successfully created database!  Running setup...<br>";
 		
 		
-		
-		$result = $conn->query("CREATE TABLE files ( id INT NOT NULL AUTO_INCREMENT , token VARCHAR(20) NOT NULL , password VARCHAR(20) NOT NULL , path VARCHAR(255) NOT NULL , PRIMARY KEY (id))");
+		//CREATE FILES TABLE
+		echo "Creating table: files<br>";
+		$result = $conn->query("CREATE TABLE files ( id INT NOT NULL AUTO_INCREMENT , utc INT(11) NOT NULL, uid INT(11) NOT NULL, token VARCHAR(20) NOT NULL , password VARCHAR(20) NOT NULL , path VARCHAR(255) NOT NULL , expires INT(11) NOT NULL, PRIMARY KEY (id))");
 		if (!$result) {
 			echo $conn->error . "<br>";
 		}
 		
+		//CREATE USERS TABLE
+		echo "Creating table: users<br>";
+		$result = $conn->query("CREATE TABLE user ( id INT(11) NOT NULL AUTO_INCREMENT , username VARCHAR(255) NOT NULL UNIQUE, email VARCHAR(255) NOT NULL, fullname VARCHAR(255) NOT NULL, password VARCHAR(255) NOT NULL, admin INT(1) DEFAULT 0 , PRIMARY KEY (id))");
+		if (!$result) {
+			echo $conn->error . "<br>";
+		}
+		
+		//CREATE LOG
+		echo "Creating table: log<br>";
+		$result = $conn->query("CREATE TABLE log ( id INT(11) NOT NULL AUTO_INCREMENT , utc INT(11) NOT NULL, fid INT(11) NOT NULL, ip VARCHAR(255), PRIMARY KEY (id))");
+		if (!$result) {
+			echo $conn->error . "<br>";
+		}
+		
+		//Create default user
+		echo "Creating default admin account (user: admin, pass: admin)<br>";
+		$pass = crypt("admin");
+		$result = $conn->query("INSERT INTO user(username,password,email,fullname,admin) VALUES('admin','$pass','admin@example.com','Webdrop Admin',1)");
+		if (!$result) {
+			echo $conn->error . "<br>";
+		}
 	}
 	
 	// Turn on all error reporting
