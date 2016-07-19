@@ -23,7 +23,7 @@
 			}
 		}
 		
-		echo "<script>var invalid = true; </script>";
+		echo "<script>var invalid = true; var failed = true;</script>";
 	}
 ?>
 
